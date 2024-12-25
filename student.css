@@ -1,0 +1,167 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Poppins', sans-serif;
+}
+
+/* header */
+header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 20px;
+    background: whitesmoke;
+}
+
+.heading{
+    flex: 1; /*allows heading to take remaining space*/
+    text-align: center; /*centers the title*/
+}
+
+.logo img{
+    max-height: 150px;
+}
+
+.heading h1 {
+    font-weight: 700;
+}
+
+/* body */
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 100px);
+    background-color: #f9f9f9;
+}
+
+form {
+    background-color: #ffffff;
+    padding: 20px 30px;
+    margin-left: 110px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+form section {
+    margin-bottom: 15px;
+}
+
+form label {
+    font-weight: 500;
+    margin-bottom: 5px;
+    display: block;
+}
+
+form input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form input[type="button"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #007BFF;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form input[type="button"]:hover {
+    background-color: #0056b3;
+}
+
+/* footer */
+footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 20px;
+    background: whitesmoke;
+}
+
+p{
+    flex: 1;
+    text-align: center;
+    margin-left: 110px;
+}
+
+footer .logo img{
+    max-height: 70px;
+    margin-bottom: -20px;
+}
+
+@media (max-width: 768px) {
+    /* For tablets */
+    header {
+        padding: 15px 10px;
+    }
+
+    .logo img {
+        max-height: 120px;
+    }
+
+    .heading h1 {
+        font-size: 1.5rem;
+    }
+
+    form {
+        margin-left: 0; /* Remove margin for better centering on smaller screens */
+        padding: 20px;
+    }
+
+    footer p {
+        margin-left: 0; /* Center text for smaller screens */
+    }
+
+    footer .logo img {
+        max-height: 60px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* For phones */
+    header {
+        padding: 10px 5px;
+    }
+
+    .logo img {
+        max-height: 100px;
+    }
+
+    .heading h1 {
+        font-size: 1.2rem; /* Reduce font size for mobile screens */
+    }
+
+    form {
+        margin-left: 0; /* Remove margin for better centering */
+        padding: 15px;
+        max-width: 90%; /* Ensure form doesn't take up too much space */
+    }
+
+    footer {
+        padding: 10px;
+    }
+
+    footer .logo img {
+        max-height: 50px;
+    }
+
+    footer p {
+        margin-left: 0;
+    }
+}
