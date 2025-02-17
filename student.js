@@ -10,3 +10,14 @@ function moveToNext(event, nextInputId) {
     }
 }
 
+document.getElementById("firstname").addEventListener("input", function() {
+    this.value = this.value.replace(/[^A-Za-z\s\-]/g, "");
+});
+
+document.getElementById("lastname").addEventListener("input", function() {
+    this.value = this.value.replace(/[^A-Za-z\s\-]/g, "");
+});
+
+document.getElementById("studentID").addEventListener("input", function() {
+    this.value = this.value.replace(/\D/g, ""); // Remove non-numeric characters
+});
