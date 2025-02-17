@@ -24,21 +24,22 @@
 
     <main>
         <article>
-            <form action="">
+            <form id="studentform" action="">
                 <section class="firstname">
                     <label for="firstname">First Name:</label>
-                    <input type="text" name="First Name" id="firstname">
+                    <input type="text" name="First Name" id="firstname" onkeydown="moveToNext(event, 'lastname')" pattern="[A-Za-z\s\-]+" title="Only letters are allowed" required>
                 </section>
                 <section class="lastname">
                     <label for="lastname">Last Name:</label>
-                    <input type="text" name="Last Name" id="lastname">
+                    <input type="text" name="Last Name" id="lastname" onkeydown="moveToNext(event, 'studentID')" pattern="[A-Za-z\s\-]+" title="Only letters are allowed" required>
                 </section>
                 <section class="studentID">
                     <label for="studentID">Student ID:</label>
-                    <input type="text" name="student id" id="studentID">
+                    <input type="text" name="student id" id="studentID" onkeydown="moveToNext(event, null)" pattern="[0-9]{7}" title="Only numbers allowed" required>
                 </section>
 
-                <input type="button" value="Submit">
+                <button type="submit" class="css-button">Submit</button>
+                <!-- <input type="button" value="Submit"> -->
             </form>
         </article>
     </main>
@@ -49,5 +50,7 @@
         </div>
         <p class="copyright">Copyright 2024 - ClassConnect</p>
     </footer>
+
+    <script src="student.js"></script>
 </body>
 </html>

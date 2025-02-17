@@ -68,7 +68,7 @@ form input[type="text"] {
     border-radius: 5px;
 }
 
-form input[type="button"] {
+.css-button {
     width: 100%;
     padding: 12px;
     background-color: #007BFF;
@@ -81,7 +81,7 @@ form input[type="button"] {
     transition: background-color 0.3s;
 }
 
-form input[type="button"]:hover {
+.css-button:hover {
     background-color: #0056b3;
 }
 
