@@ -10,6 +10,7 @@ function moveToNext(event, nextInputId) {
     }
 }
 
+//real time validation
 document.getElementById("firstname").addEventListener("input", function() {
     this.value = this.value.replace(/[^A-Za-z\s\-]/g, "");
 });
