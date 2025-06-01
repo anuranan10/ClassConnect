@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ClassConnect | QR Generator</title>
+  <link rel="stylesheet" href="landing.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="Embry_Riddle_Aeronautical_University_Daytona_Beach-removebg.png" alt="logo">
+    </div>
+    <div class="heading">
+      <h1>QRollCall</h1>
+    </div>
+    <nav>
+      <a href="dashboard.html"><button>Dashboard</button></a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="qr-section">
+      <h2>Generate QR Code</h2>
+      <button onclick="startQRCodeCycle()">Start QR Session</button>
+      <div id="qr"></div>
+      <div id="timer"></div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="logo">
+        <img src="" alt="company logo">
+    </div>
+
+    <p class="copyright">Copyright 2024 - ClassConnect</p>
+  </footer>
+
+  <script src="landing.js"></script>
+</body>
+</html>
