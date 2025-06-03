@@ -27,7 +27,7 @@ ClassConnect is a real-time attendance tracking web application designed for cla
 - Node.js
 - Express.js
 - MongoDB Atlas (cloud database)
-- Mongoose (ODM)
+- Mongoose
 - QRCode (Node package for QR image generation)
 - UUID / Crypto (for token generation)
 - CORS & JSON middleware
@@ -36,14 +36,3 @@ ClassConnect is a real-time attendance tracking web application designed for cla
 - Replit (Backend API Hosting)
 - VSCode (Frontend Development)
 - Live Server (Preview frontend)
-
----
-
-## 🔧 Installation & Usage
-
-### Backend Setup (Replit or Local)
-
-1. **Clone the repository or set up a Node.js project**
-2. Install dependencies:
-   ```bash
-   npm install express mongoose qrcode uuid cors
