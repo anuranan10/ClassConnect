@@ -32,9 +32,9 @@ exports.submitAttendance = functions.https.onRequest((req, res) => {
 exports.generateToken = functions.https.onRequest((req, res) => {
   corsHandler(req, res, async () => {
     try {
-      const token = crypto.randomBytes(8).toString("hex");
-      const qrImage = await QRCode.toDataURL(token);
-      res.json({token, qrImage}); // base64 string with data:image/png
+      const studentUrl = "https://classconnect-5b10f.web.app/student.html";
+      const qrImage = await QRCode.toDataURL(studentUrl);
+      res.json({ qrImage });
     } catch (err) {
       console.error("QR generation failed:", err);
       res.status(500).json({message: "QR generation failed"});
