@@ -1,8 +1,10 @@
+const FIREBASE_API = "https://us-central1-classconnect-5b10f.cloudfunctions.net";
+
 document.addEventListener("DOMContentLoaded", async () => {
   const main = document.querySelector("main");
 
   try {
-    const res = await fetch("https://3a254ac9-4201-41e3-838d-f156d6044a28-00-xtkv165zfgnh.worf.replit.dev/attendance");
+    const res = await fetch(`${FIREBASE_API}/getAttendance`);
     const data = await res.json();
 
     data.forEach(student => {
