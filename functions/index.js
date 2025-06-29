@@ -7,12 +7,15 @@ const cors = require("cors");
 admin.initializeApp();
 const db = admin.firestore();
 
-const corsHandler = cors({origin: true});
+const corsHandler = cors({ origin: true });
 
 //Attendance submission
 exports.submitAttendance = functions.https.onRequest((req, res) => {
   corsHandler(req, res, async () => {
-    const {firstName, lastName, studentID} = req.body;
+    console.log("🔵 submitAttendance CALLED");
+
+    const { firstName, lastName, studentID } = req.body;
+    console.log("📋 Data received:", firstName, lastName, studentID);
 
     try {
       await db.collection("attendance").add({
@@ -21,12 +24,15 @@ exports.submitAttendance = functions.https.onRequest((req, res) => {
         studentID,
         timestamp: new Date(),
       });
+      console.log("✅ Attendance saved to Firestore.");
       res.status(200).send("Attendance recorded");
     } catch (err) {
+      console.error("❌ Failed to save attendance:", err);
       res.status(500).send("Failed to record attendance");
     }
   });
 });
+
 
 //Generate dynamic QR code
 exports.generateToken = functions.https.onRequest((req, res) => {
@@ -37,7 +43,7 @@ exports.generateToken = functions.https.onRequest((req, res) => {
       res.json({ qrImage });
     } catch (err) {
       console.error("QR generation failed:", err);
-      res.status(500).json({message: "QR generation failed"});
+      res.status(500).json({ message: "QR generation failed" });
     }
   });
 });
@@ -47,13 +53,13 @@ exports.getAttendance = functions.https.onRequest((req, res) => {
   corsHandler(req, res, async () => {
     try {
       const snapshot = await db
-          .collection("attendance")
-          .orderBy("timestamp", "desc")
-          .get();
+        .collection("attendance")
+        .orderBy("timestamp", "desc")
+        .get();
       const records = snapshot.docs.map((doc) => doc.data());
       res.status(200).json(records);
     } catch (err) {
-      res.status(500).json({message: "Error fetching attendance"});
+      res.status(500).json({ message: "Error fetching attendance" });
     }
   });
 });

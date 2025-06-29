@@ -1,31 +1,29 @@
 function moveToNext(event, nextInputId) {
-    if(event.key === 'Enter') {
-        event.preventDefault(); //preventing default function of enter to submit
+    if (event.key === 'Enter') {
+        event.preventDefault(); // prevent default Enter submit
 
-        if(nextInputId) {
+        if (nextInputId) {
             document.getElementById(nextInputId).focus();
         } else {
-            document.getElementById('studentform').submit(); //submitting the form
+            document.getElementById('studentform').submit(); // submitting the form
         }
     }
 }
 
-//real time validation
-document.getElementById("firstname").addEventListener("input", function() {
+// real time validation
+document.getElementById("firstname").addEventListener("input", function () {
     this.value = this.value.replace(/[^A-Za-z\s\-]/g, "");
 });
 
-document.getElementById("lastname").addEventListener("input", function() {
+document.getElementById("lastname").addEventListener("input", function () {
     this.value = this.value.replace(/[^A-Za-z\s\-]/g, "");
 });
 
-document.getElementById("studentID").addEventListener("input", function() {
+document.getElementById("studentID").addEventListener("input", function () {
     this.value = this.value.replace(/\D/g, ""); // Remove non-numeric characters
 });
 
-
-
-//connecting frontend tp backend
+// connecting frontend to backend
 document.getElementById("studentform").addEventListener("submit", async function (e) {
     e.preventDefault(); // Stop default form submission
 
@@ -33,9 +31,8 @@ document.getElementById("studentform").addEventListener("submit", async function
     const lastName = document.getElementById("lastname").value;
     const studentID = document.getElementById("studentID").value;
 
-    // Send data to backend
     try {
-        const res = await fetch("https://3a254ac9-4201-41e3-838d-f156d6044a28-00-xtkv165zfgnh.worf.replit.dev/attendance", {
+        const res = await fetch("https://us-central1-classconnect-5b10f.cloudfunctions.net/submitAttendance", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -47,8 +44,9 @@ document.getElementById("studentform").addEventListener("submit", async function
             }),
         });
 
-        const data = await res.json();
-        alert(data.message); // success/failure from backend
+
+        const message = await res.text();
+        alert(message);
     } catch (error) {
         alert("❌ Something went wrong!");
         console.error(error);
