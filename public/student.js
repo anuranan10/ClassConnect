@@ -47,6 +47,7 @@ document.getElementById("studentform").addEventListener("submit", async function
 
         const message = await res.text();
         alert(message);
+        document.getElementById("studentform").reset();
     } catch (error) {
         alert("❌ Something went wrong!");
         console.error(error);
