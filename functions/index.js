@@ -54,7 +54,7 @@ exports.getAttendance = functions.https.onRequest((req, res) => {
     try {
       const snapshot = await db
         .collection("attendance")
-        .orderBy("timestamp", "desc")
+        .orderBy("timestamp", "asc")
         .get();
       const records = snapshot.docs.map((doc) => doc.data());
       res.status(200).json(records);
