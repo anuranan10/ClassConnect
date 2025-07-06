@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       statusIcon.style.width = "15px";
       statusIcon.style.borderRadius = "50%";
       statusIcon.style.display = "inline-block";
-      statusIcon.style.backgroundColor = "green";
+      statusIcon.style.backgroundColor = student.present ? "green" : "red";
 
       row.appendChild(name);
       row.appendChild(statusIcon);

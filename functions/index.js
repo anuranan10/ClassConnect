@@ -1,7 +1,6 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const QRCode = require("qrcode");
-const crypto = require("crypto");
 const cors = require("cors");
 
 admin.initializeApp();
@@ -9,16 +8,21 @@ const db = admin.firestore();
 
 const corsHandler = cors({ origin: true });
 
-//Attendance submission
+// Attendance submission
 exports.submitAttendance = functions.https.onRequest((req, res) => {
   corsHandler(req, res, async () => {
-    console.log("🔵 submitAttendance CALLED");
-
     const { firstName, lastName, studentID } = req.body;
     console.log("📋 Data received:", firstName, lastName, studentID);
 
     try {
-      await db.collection("attendance").add({
+      const rosterDoc = await db.collection("roster").doc(studentID).get();
+
+      if (!rosterDoc.exists) {
+        console.log("❌ Student not found in roster.");
+        return res.status(404).send("Student not found.");
+      }
+
+      await db.collection("attendance").doc(studentID).set({
         firstName,
         lastName,
         studentID,
@@ -33,8 +37,7 @@ exports.submitAttendance = functions.https.onRequest((req, res) => {
   });
 });
 
-
-//Generate dynamic QR code
+// Generate dynamic QR code
 exports.generateToken = functions.https.onRequest((req, res) => {
   corsHandler(req, res, async () => {
     try {
@@ -48,17 +51,28 @@ exports.generateToken = functions.https.onRequest((req, res) => {
   });
 });
 
-//Fetch attendance records
+// Fetch attendance records (with present/absent)
 exports.getAttendance = functions.https.onRequest((req, res) => {
   corsHandler(req, res, async () => {
     try {
-      const snapshot = await db
-        .collection("attendance")
-        .orderBy("timestamp", "asc")
-        .get();
-      const records = snapshot.docs.map((doc) => doc.data());
+      const rosterSnapshot = await db.collection("roster").get();
+      const attendanceSnapshot = await db.collection("attendance").get();
+
+      const presentIDs = new Set(
+        attendanceSnapshot.docs.map(doc => doc.id)
+      );
+
+      const records = rosterSnapshot.docs.map(doc => {
+        const data = doc.data();
+        return {
+          ...data,
+          present: presentIDs.has(doc.id)
+        };
+      });
+
       res.status(200).json(records);
     } catch (err) {
+      console.error(err);
       res.status(500).json({ message: "Error fetching attendance" });
     }
   });
