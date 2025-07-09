@@ -29,6 +29,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       row.appendChild(statusIcon);
       main.appendChild(row);
     });
+
   } catch (error) {
     console.error("❌ Error fetching attendance:", error);
   }

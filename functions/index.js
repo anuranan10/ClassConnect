@@ -55,22 +55,24 @@ exports.generateToken = functions.https.onRequest((req, res) => {
 exports.getAttendance = functions.https.onRequest((req, res) => {
   corsHandler(req, res, async () => {
     try {
-      const rosterSnapshot = await db.collection("roster").get();
+      const studentsSnapshot = await db.collection("roster").get();
       const attendanceSnapshot = await db.collection("attendance").get();
 
-      const presentIDs = new Set(
-        attendanceSnapshot.docs.map(doc => doc.id)
+      const attendedIDs = new Set(
+        attendanceSnapshot.docs.map(doc => doc.data().studentID)
       );
 
-      const records = rosterSnapshot.docs.map(doc => {
+      const result = studentsSnapshot.docs.map(doc => {
         const data = doc.data();
         return {
-          ...data,
-          present: presentIDs.has(doc.id)
+          firstName: data.firstName,
+          lastName: data.lastName,
+          studentID: data.studentID,
+          present: attendedIDs.has(data.studentID),
         };
       });
 
-      res.status(200).json(records);
+      res.status(200).json(result);
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Error fetching attendance" });
