@@ -1,13 +1,12 @@
 function moveToNext(event, nextInputId) {
-    if (event.key === 'Enter') {
-        event.preventDefault(); // prevent default Enter submit
-
-        if (nextInputId) {
-            document.getElementById(nextInputId).focus();
-        } else {
-            document.getElementById('studentform').submit(); // submitting the form
-        }
+  if (event.key === 'Enter') {
+    event.preventDefault(); // prevent default Enter submit
+    if (nextInputId) {
+      document.getElementById(nextInputId).focus();
+    } else {
+      document.getElementById('studentform').submit();// submitting the form
     }
+  }
 }
 
 // real time validation
@@ -23,11 +22,28 @@ document.getElementById("studentID").addEventListener("input", function () {
     this.value = this.value.replace(/\D/g, ""); // Remove non-numeric characters
 });
 
+
 // connecting frontend to backend
 
 // read sessionId from query param
 const urlParams = new URLSearchParams(window.location.search);
 const sessionId = urlParams.get("sessionId");
+
+// Validate session on load
+async function checkSession() {
+  try {
+    const res = await fetch(`https://us-central1-classconnect-5b10f.cloudfunctions.net/validateSession?sessionId=${sessionId}`);
+    if (!res.ok) {
+      alert("❌ QR Code expired. Please scan a new one.");
+      document.querySelectorAll("input, button").forEach(el => el.disabled = true);
+    }
+  } catch (err) {
+    console.error("❌ Error checking session:", err);
+    alert("⚠️ Unable to validate session.");
+    document.querySelectorAll("input, button").forEach(el => el.disabled = true);
+  }
+}
+checkSession();
 
 document.getElementById("studentform").addEventListener("submit", async function (e) {
   e.preventDefault();
@@ -45,10 +61,11 @@ document.getElementById("studentform").addEventListener("submit", async function
 
     const message = await res.text();
     alert(message);
-    document.getElementById("studentform").reset();
+    if (res.ok) document.getElementById("studentform").reset();
   } catch (error) {
     alert("❌ Something went wrong!");
     console.error(error);
   }
 });
+
 
