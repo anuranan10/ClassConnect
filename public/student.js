@@ -24,32 +24,31 @@ document.getElementById("studentID").addEventListener("input", function () {
 });
 
 // connecting frontend to backend
+
+// read sessionId from query param
+const urlParams = new URLSearchParams(window.location.search);
+const sessionId = urlParams.get("sessionId");
+
 document.getElementById("studentform").addEventListener("submit", async function (e) {
-    e.preventDefault(); // Stop default form submission
+  e.preventDefault();
 
-    const firstName = document.getElementById("firstname").value;
-    const lastName = document.getElementById("lastname").value;
-    const studentID = document.getElementById("studentID").value;
+  const firstName = document.getElementById("firstname").value;
+  const lastName = document.getElementById("lastname").value;
+  const studentID = document.getElementById("studentID").value;
 
-    try {
-        const res = await fetch("https://us-central1-classconnect-5b10f.cloudfunctions.net/submitAttendance", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                firstName,
-                lastName,
-                studentID,
-            }),
-        });
+  try {
+    const res = await fetch("https://us-central1-classconnect-5b10f.cloudfunctions.net/submitAttendance", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ firstName, lastName, studentID, sessionId }),
+    });
 
-
-        const message = await res.text();
-        alert(message);
-        document.getElementById("studentform").reset();
-    } catch (error) {
-        alert("❌ Something went wrong!");
-        console.error(error);
-    }
+    const message = await res.text();
+    alert(message);
+    document.getElementById("studentform").reset();
+  } catch (error) {
+    alert("❌ Something went wrong!");
+    console.error(error);
+  }
 });
+
