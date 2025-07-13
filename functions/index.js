@@ -1,3 +1,4 @@
+const crypto = require("crypto");
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const QRCode = require("qrcode");
@@ -12,22 +13,22 @@ const corsHandler = cors({ origin: true });
 exports.generateToken = functions.https.onRequest((req, res) => {
   corsHandler(req, res, async () => {
     try {
-      const sessionId = Math.random().toString(36).substring(2, 10);
-      const expiresAt = Date.now() + 30_000; // 30 seconds validity
-
-      await db.collection("sessions").doc(sessionId).set({ expiresAt });
-
-      const studentUrl =
-        `https://classconnect-5b10f.web.app/student.html?sessionId=${sessionId}`;
-
+      const token = crypto.randomBytes(8).toString("hex");
+      const expiresAt = Date.now() + 30 * 1000; // expires in 30s
+      const studentUrl = `https://classconnect-5b10f.web.app/student.html?sessionId=${token}`;
       const qrImage = await QRCode.toDataURL(studentUrl);
-      res.json({ qrImage });
+
+      // save session to DB
+      await db.collection("sessions").doc(token).set({ expiresAt });
+
+      res.json({ qrImage, token });
     } catch (err) {
       console.error("QR generation failed:", err);
       res.status(500).json({ message: "QR generation failed" });
     }
   });
 });
+
 
 // 📌 Attendance submission, check session validity
 exports.submitAttendance = functions.https.onRequest((req, res) => {
@@ -87,6 +88,30 @@ exports.getAttendance = functions.https.onRequest((req, res) => {
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Error fetching attendance" });
+    }
+  });
+});
+
+// 📌 Validate session
+exports.validateSession = functions.https.onRequest((req, res) => {
+  corsHandler(req, res, async () => {
+    const { sessionId } = req.query;
+
+    if (!sessionId) {
+      return res.status(400).send("❌ Missing sessionId");
+    }
+
+    try {
+      const sessionDoc = await db.collection("sessions").doc(sessionId).get();
+
+      if (!sessionDoc.exists || sessionDoc.data().expiresAt < Date.now()) {
+        return res.status(400).send("❌ QR Code expired");
+      }
+
+      res.status(200).send("✅ Session valid");
+    } catch (err) {
+      console.error("❌ Error validating session:", err);
+      res.status(500).send("Error validating session");
     }
   });
 });
