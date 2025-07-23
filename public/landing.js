@@ -9,7 +9,7 @@ async function generateQRCode() {
   sessionStorage.setItem("sessionToken", token);
 }
 
-function startQRCodeCycle() {
+function startQRCodeCycle() { //qr timer starts
   clearInterval(interval);
   timeLeft = 30;
   generateQRCode();
