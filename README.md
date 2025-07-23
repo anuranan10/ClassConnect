@@ -41,7 +41,7 @@ ClassConnect was built with the intent to help professors managing large classes
 
 ## Contact
 
-**Developer*: Anuranan Bharadwaj  
+**Developer**: Anuranan Bharadwaj  
 **Email**: [bharada3@my.erau.edu]  
 **LinkedIn**: [linkedin.com/in/anuranan-bharadwaj](https://www.linkedin.com/in/anuranan-bharadwaj/)
 
