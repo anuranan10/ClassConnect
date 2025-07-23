@@ -67,5 +67,3 @@ document.getElementById("studentform").addEventListener("submit", async function
     console.error(error);
   }
 });
-
-
